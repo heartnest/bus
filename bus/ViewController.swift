@@ -9,42 +9,36 @@
 import UIKit
 
 
-class ViewController: UIViewController {
+class ViewController: SlashViewController,UIPageViewControllerDataSource {
     @IBOutlet weak var resLabel: UILabel!
 
+    var pageViewController : UIPageViewController?
+    
+    var pageTitles : Array<String> = ["God vs Man", "Cool Breeze", "Fire Sky"]
+    var pageImages : Array<String> = ["page1.png", "page2.png", "page3.png"]
+    var currentIndex : Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-
+        pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
+        pageViewController!.dataSource = self
         
-//        var err: NSError
-//        var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
-//        println("Synchronous\(jsonResult)")
-//        
+        let startingViewController = viewControllerAtIndex(0)!
+        let viewControllers: NSArray = [startingViewController]
+        pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: false, completion: nil)
+        pageViewController!.view.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
+        
+        addChildViewController(pageViewController!)
+        view.addSubview(pageViewController!.view)
+        pageViewController!.didMoveToParentViewController(self)
+        
         
     }
   
     @IBAction func click(sender: AnyObject) {
         println("Button tapped")
-        
-        
-//        var url: NSURL = NSURL(string: "https://solweb.tper.it/tperit/webservices/hellobus.asmx/QueryHellobus?fermata=33&linea=33&oraHHMM=")!
-//        let request: NSURLRequest = NSURLRequest(URL: url)
-//
-//        var response: AutoreleasingUnsafeMutablePointer <NSURLResponse?>=nil
-//        
-//        var error: AutoreleasingUnsafeMutablePointer <NSErrorPointer?>=nil
-//        var dataVal: NSData =  NSURLConnection.sendSynchronousRequest(request, returningResponse: response, error:nil)!
-//        
-//        //requestUrl("http://www.google.com")
-//        //var data:NSData = NSData.contentsWithURL("http://www.google.com");
-//        
-//        let resstr = NSString(data: dataVal, encoding: NSUTF8StringEncoding)
-//        var das = NSString(data: dataVal, encoding: NSUTF8StringEncoding)
-//        
-//        println("Button tapped2 \(das)")
-
         
         var url: NSURL = NSURL(string: "https://solweb.tper.it/tperit/webservices/hellobus.asmx/QueryHellobus?fermata=33&linea=33&oraHHMM=")!
         var request1: NSURLRequest = NSURLRequest(URL: url)
@@ -53,36 +47,91 @@ class ViewController: UIViewController {
         NSURLConnection.sendAsynchronousRequest(request1, queue: queue, completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
             /* Your code */
             
+            
             var err: NSError
             
-            var jsonResult = NSString(data: data, encoding: NSUTF8StringEncoding)
-            println("AsSynchronous\(jsonResult)")
+            let xmlArrival = NSString(data: data, encoding: NSUTF8StringEncoding)
+            let xmlNSArrival: String = xmlArrival!
+            
+            println("original "+xmlNSArrival)
+            
+            let notagArrival = xmlNSArrival.stringByReplacingOccurrencesOfString("</string>", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            let splittedcombi = notagArrival.componentsSeparatedByString("TperHellobus: ")
+            
+            println("then "+splittedcombi[1])
+            
+            let splitted = splittedcombi[1].componentsSeparatedByString(", ")
+            
+
+            println("Result\n \(splitted[0]) \n \(splitted[1])")
             
             
         })
     }
     
-    func requestUrl(urlString: String){
-        var url: NSURL = NSURL(string: urlString)!
-        let request: NSURLRequest = NSURLRequest(URL: url)
+    
+    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController?
+    {
+        var index = (viewController as TableViewController).pageIndex
         
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(), completionHandler:{
-            (response, data, error) -> Void in
-            
-            if (error? != nil) {
-                println("hello2")
-                //Handle Error here
-            }else{
-                
-                let resstr = NSString(data: data, encoding: NSUTF8StringEncoding)
-                println("hello")
-                //Handle data in NSData type
-            }
-            
-        })
+        if (index == 0) || (index == NSNotFound) {
+            return nil
+        }
+        
+        index--
+        
+        return viewControllerAtIndex(index)
     }
-
-
+    
+    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController?
+    {
+        var index = (viewController as TableViewController).pageIndex
+        
+        if index == NSNotFound {
+            return nil
+        }
+        
+        index++
+        
+        if (index == self.pageTitles.count) {
+            return nil
+        }
+        
+        return viewControllerAtIndex(index)
+    }
+    
+    func viewControllerAtIndex(index: Int) -> SlashViewController?
+    {
+        if self.pageTitles.count == 0 || index >= self.pageTitles.count
+        {
+            println("here")
+            return nil
+        }
+        
+        if(index == 0){
+            
+        }else{
+            // Create a new view controller and pass suitable data.
+            let pageContentViewController = TableViewController()
+            pageContentViewController.titleText = pageTitles[index]
+            pageContentViewController.pageIndex = index
+        }
+        
+        
+        currentIndex = index
+        
+        return pageContentViewController
+    }
+    
+    func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int
+    {
+        return self.pageTitles.count
+    }
+    
+    func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int
+    {
+        return 0
+    }
     
     
 }
