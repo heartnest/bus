@@ -11,6 +11,9 @@ import UIKit
 class SlashViewController: UIViewController {
     
     let LOGKEY = "userdefualtlogkey"
+    let LASTSKEY = "userdefualtlastsearchkey"
+    
+    
     var pageIndex : Int = 0
     var titleText : String = ""
     var imageFile : String = ""
@@ -34,11 +37,22 @@ class SlashViewController: UIViewController {
 //        button.addTarget(self, action: "Action:", forControlEvents: UIControlEvents.TouchUpInside)
 //        self.view.addSubview(button)
     }
+
     
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
+    func updateSearchLog(newStr:String){
+        var old: String = ""
+        if(NSUserDefaults().objectForKey(LOGKEY) != nil){
+            old = NSUserDefaults().objectForKey(LOGKEY) as String;
+        }
+        let splittedcheck = old.componentsSeparatedByString(newStr)
+        let size :Int = splittedcheck.count
+        if(size == 1){
+            old += "@\(newStr)"
+            NSUserDefaults().setObject(old, forKey: LOGKEY)
+            
+        }
+        NSUserDefaults().setObject(newStr, forKey: LASTSKEY)
+        NSUserDefaults().synchronize()
     }
-    
 
 }

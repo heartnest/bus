@@ -59,17 +59,20 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
     // UITableViewDelegate methods
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+
+        let str = self.tableData[indexPath.row]
+        updateSearchLog(str)
         
-        let alert = UIAlertController(title: "Item selected", message: "You selected item \(indexPath.row)", preferredStyle: UIAlertControllerStyle.Alert)
-        
-        alert.addAction(UIAlertAction(title: "OK",
-            style: UIAlertActionStyle.Default,
-            handler: {
-                (alert: UIAlertAction!) in println("An alert of type \(alert.style.hashValue) was tapped!")
-                self.tableView?.deselectRowAtIndexPath(indexPath, animated: true)
-        }))
-        
-        self.presentViewController(alert, animated: true, completion: nil)
+//        let alert = UIAlertController(title: "Item selected", message: "You selected item \(indexPath.row)", preferredStyle: UIAlertControllerStyle.Alert)
+//        
+//        alert.addAction(UIAlertAction(title: "OK",
+//            style: UIAlertActionStyle.Default,
+//            handler: {
+//                (alert: UIAlertAction!) in println("An alert of type \(alert.style.hashValue) was tapped!")
+//                self.tableView?.deselectRowAtIndexPath(indexPath, animated: true)
+//        }))
+//        
+//        self.presentViewController(alert, animated: true, completion: nil)
         
     }
 
@@ -84,17 +87,17 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
     }
     */
 
-    /*
+    
     // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return NO if you do not want the specified item to be editable.
         return true
     }
-    */
+    
 
-    /*
+    
     // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
@@ -102,7 +105,7 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.

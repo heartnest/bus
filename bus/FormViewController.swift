@@ -27,7 +27,8 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         self.view.addGestureRecognizer(tapRecognizer)
         
         self.spinner.hidden = true
-        // Do any additional setup after loading the view.
+        
+        loadLastSearch();
     }
     
     
@@ -63,37 +64,46 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
             
             var err: NSError
             
-            let xmlArrival = NSString(data: data, encoding: NSUTF8StringEncoding)
-            let xmlNSArrival: String = xmlArrival!
-            
-            
-            var notagArrival = xmlNSArrival.stringByReplacingOccurrencesOfString("</string>", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            
-             notagArrival = notagArrival.stringByReplacingOccurrencesOfString(", ", withString: "\n", options: NSStringCompareOptions.LiteralSearch, range: nil)
-            
-            
-            let splittedcombi = notagArrival.componentsSeparatedByString("TperHellobus: ")
-            var resStr:String;
-            //println("then "+splittedcombi[1])
-            if(splittedcombi.count == 2){
-                let splitted = splittedcombi[1].componentsSeparatedByString(", ")
-                resStr = splittedcombi[1];
-            }else{
-                resStr = splittedcombi[0];
-            }
-            
-            dispatch_async (dispatch_get_main_queue (), {
-
-                var attrs = [NSFontAttributeName : UIFont.systemFontOfSize(24.0)]
-                var gString = NSMutableAttributedString(string:resStr, attributes:attrs)
-                self.feedPan.attributedText = gString
-                self.spinner.hidden = true
-                self.spinner.stopAnimating();
+            if(data != nil){
+                let xmlArrival = NSString(data: data, encoding: NSUTF8StringEncoding)
+                let xmlNSArrival: String = xmlArrival!
                 
-            });
-            
-
-
+                
+                var notagArrival = xmlNSArrival.stringByReplacingOccurrencesOfString("</string>", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                
+                notagArrival = notagArrival.stringByReplacingOccurrencesOfString(", ", withString: "\n", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                
+                
+                let splittedcombi = notagArrival.componentsSeparatedByString("TperHellobus: ")
+                var resStr:String;
+                
+                if(splittedcombi.count == 2){
+                    let splitted = splittedcombi[1].componentsSeparatedByString(", ")
+                    resStr = splittedcombi[1];
+                }else{
+                    resStr = splittedcombi[0];
+                }
+                
+                dispatch_async (dispatch_get_main_queue (), {
+                    
+                    var attrs = [NSFontAttributeName : UIFont.systemFontOfSize(24.0)]
+                    var gString = NSMutableAttributedString(string:resStr, attributes:attrs)
+                    self.feedPan.attributedText = gString
+                    self.spinner.hidden = true
+                    self.spinner.stopAnimating();
+                    
+                });
+            }else{
+                dispatch_async (dispatch_get_main_queue (), {
+                    
+                    var attrs = [NSFontAttributeName : UIFont.systemFontOfSize(24.0)]
+                    var gString = NSMutableAttributedString(string:"A connection problem occured ..", attributes:attrs)
+                    self.feedPan.attributedText = gString
+                    self.spinner.hidden = true
+                    self.spinner.stopAnimating();
+                    
+                });
+            }
         })
     }
     
@@ -103,20 +113,15 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         return true;
     }
     
-    func updateSearchLog(newStr:String){
-        var old: String = ""
-        if(NSUserDefaults().objectForKey(LOGKEY) != nil){
-            old = NSUserDefaults().objectForKey(LOGKEY) as String;
+
+    
+    func loadLastSearch(){
+        if(NSUserDefaults().objectForKey(LASTSKEY) != nil){
+            let lastsearch = NSUserDefaults().objectForKey(LASTSKEY) as String;
+            let splitted = lastsearch.componentsSeparatedByString(",")
+            self.numStop.text = splitted[0];
+            self.numBus.text = splitted[1];
         }
-        let splittedcheck = old.componentsSeparatedByString(newStr)
-        let size :Int = splittedcheck.count
-        //println("lalal \(splittedcheck.count) and old str \(old)")
-        if(size == 1){
-            old += "@\(newStr)"
-            NSUserDefaults().setObject(old, forKey: LOGKEY)
-            NSUserDefaults().synchronize()
-        }
-        
     }
 
 }

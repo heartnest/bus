@@ -5,14 +5,13 @@ class ViewController: UIViewController, UIPageViewControllerDataSource
 {
     var pageViewController : UIPageViewController?
     var pageTitles : Array<String> = ["God vs Man", "Cool Breeze"]
-    var pageImages : Array<String> = ["page1.png", "page2.png"]
     var currentIndex : Int = 0
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        pageViewController = UIPageViewController(transitionStyle: .PageCurl, navigationOrientation: .Horizontal, options: nil)
+        pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
         pageViewController!.dataSource = self
         
         let startingViewController: SlashViewController = viewControllerAtIndex(0)!
@@ -83,7 +82,6 @@ class ViewController: UIViewController, UIPageViewControllerDataSource
         }
         // Create a new view controller and pass suitable data.
         
-        pageContentViewController.imageFile = pageImages[index]
         pageContentViewController.titleText = pageTitles[index]
         pageContentViewController.pageIndex = index
         currentIndex = index

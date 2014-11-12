@@ -15,6 +15,7 @@
 		2E0356D01A12D4620095323C /* SlashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0356CF1A12D4620095323C /* SlashViewController.swift */; };
 		2E0357041A12DF610095323C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E0357031A12DF610095323C /* Images.xcassets */; };
 		2E1720D91A12E3F4006F9DF5 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1720D81A12E3F4006F9DF5 /* FormViewController.swift */; };
+		2E17210B1A137729006F9DF5 /* issues.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2E17210A1A137729006F9DF5 /* issues.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		2E0356CF1A12D4620095323C /* SlashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlashViewController.swift; sourceTree = "<group>"; };
 		2E0357031A12DF610095323C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2E1720D81A12E3F4006F9DF5 /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
+		2E17210A1A137729006F9DF5 /* issues.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = issues.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				2E0356CF1A12D4620095323C /* SlashViewController.swift */,
 				2E1720D81A12E3F4006F9DF5 /* FormViewController.swift */,
 				2E0356AF1A1233C50095323C /* Main.storyboard */,
+				2E17210A1A137729006F9DF5 /* issues.txt */,
 				2E0357031A12DF610095323C /* Images.xcassets */,
 				2E0356A91A1233C50095323C /* Supporting Files */,
 			);
@@ -200,6 +203,7 @@
 			files = (
 				2E0356B11A1233C50095323C /* Main.storyboard in Resources */,
 				2E0357041A12DF610095323C /* Images.xcassets in Resources */,
+				2E17210B1A137729006F9DF5 /* issues.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
