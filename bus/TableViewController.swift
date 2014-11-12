@@ -10,23 +10,30 @@ import UIKit
 
 class TableViewController: SlashViewController, UITableViewDelegate, UITableViewDataSource{
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var tableView: UITableView?
     
     
     let cellIdentifier = "cellIdentifier"
     var tableData = [String]()
     
-    var pageIndex : Int = 0
-    var titleText : String = ""
-
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         self.tableView?.registerClass(UITableViewCell.self, forCellReuseIdentifier: self.cellIdentifier)
+
+        self.tableView?.delegate = self
+        self.tableView?.dataSource = self
         
         // Setup table data
-        for index in 0...10 {
-            self.tableData.append("Item \(index)")
+        
+        
+        let log = NSUserDefaults().objectForKey(LOGKEY) as String;
+        var splitted = log.componentsSeparatedByString("@")
+        
+        for index in splitted {
+            self.tableData.append("\(index)")
         }
     }
 
