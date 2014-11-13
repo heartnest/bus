@@ -141,15 +141,18 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         if(NSUserDefaults().objectForKey(LASTSKEY) != nil){
             let lastsearch = NSUserDefaults().objectForKey(LASTSKEY) as String;
             let splitted = lastsearch.componentsSeparatedByString(",")
-            self.numStop.text = splitted[0];
-            self.numBus.text = splitted[1];
+            if(splitted.count == 2){
+                self.numStop.text = splitted[0];
+                self.numBus.text = splitted[1];
+            }
         }
     }
     
     func makeTextFieldBorder(textField:UITextField){
         var border = CALayer()
         var width = CGFloat(1.0)
-        border.borderColor = UIColor.grayColor().CGColor
+        //border.borderColor = UIColor.grayColor().CGColor
+        border.borderColor = (UIColor( red: 170/255, green: 170/255, blue:172/255, alpha: 1.0 )).CGColor;
         border.frame = CGRect(x: 0, y: textField.frame.size.height - width, width:  textField.frame.size.width, height: textField.frame.size.height)
         
         border.borderWidth = width

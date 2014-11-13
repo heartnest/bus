@@ -44,7 +44,6 @@ class SlashViewController: UIViewController {
         if(size == 1){
             old += "@\(newStr)"
             NSUserDefaults().setObject(old, forKey: LOGKEY)
-            
         }
         NSUserDefaults().setObject(newStr, forKey: LASTSKEY)
         NSUserDefaults().synchronize()

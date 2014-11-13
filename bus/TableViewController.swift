@@ -10,7 +10,7 @@ import UIKit
 
 class TableViewController: SlashViewController, UITableViewDelegate, UITableViewDataSource{
     
-    @IBOutlet var tableView: UITableView?
+    @IBOutlet var tableView: UITableView!
     
     
     let cellIdentifier = "cellIdentifier"
@@ -24,16 +24,27 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
         self.tableView?.dataSource = self
         
         // Setup table data
+        loadLogFromUD()
         
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadlog", name: NSUserDefaultsDidChangeNotification, object: nil)
+    }
+
+    func reloadlog(){
+        loadLogFromUD()
+        self.tableView.reloadData()
+    }
+    
+    func loadLogFromUD(){
+        self.tableData = []
         let log = NSUserDefaults().objectForKey(LOGKEY) as String;
         var splitted = log.componentsSeparatedByString("@")
         
         for index in splitted {
-            self.tableData.append("\(index)")
+            if(index != ""){
+                self.tableData.append("\(index)")
+            }
         }
     }
-
 
     // MARK: - Table view data source
 
@@ -61,23 +72,47 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
         
         if(sender.state == UIGestureRecognizerState.Began) {
             let point:CGPoint = sender.locationInView(self.tableView)
-//            var theIndexPath:NSIndexPath = self.tableView.indexPathForRowAtPoint()
-//
-            // THERE IS A BUG TO GET self.tableView.indexPathForRowAtPoint !!!!
-// I HATE SWIFT!
-            //
-//            println("aaa no\(theIndexPath)")
-            //s: UITableViewCell =sender;
-//            if(sender is UITableViewCell){
-//                 println("aaa")
-//            }else{
-//                println("aaa no")
-//            }
-           // let str = sender.view.tag
-           // println("aaa\(str)")
+            
+            var theIndexPath:NSIndexPath! = self.tableView.indexPathForRowAtPoint(point)
+            let itemToRemove = tableData[theIndexPath.row];
+            
+            let log = NSUserDefaults().objectForKey(LOGKEY) as String;
+
+            var alert = UIAlertController(title: "Attention", message: "Are you sure to cancel \(itemToRemove)", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+                UIAlertAction in
+                
+            }
+            var okAction = UIAlertAction(title: "YES", style: UIAlertActionStyle.Default) {
+                UIAlertAction in
+                
+                //update log
+                var i=0, idx = 0
+                var log2 = "";
+                for item in self.tableData {
+                    if(item != itemToRemove)
+                    {
+                        log2 += "@"+item
+                    }else{
+                        idx = i;
+                    }
+                    i++
+                }
+                self.tableData.removeAtIndex(idx)
+                NSUserDefaults().setObject(log2, forKey: self.LOGKEY)
+                NSUserDefaults().synchronize()
+                self.tableView.reloadData()
+            }
+
+            alert.addAction(cancelAction)
+            alert.addAction(okAction)
+
+            self.presentViewController(alert, animated: true, completion: nil)
             
         }
     }
+    
     
     // UITableViewDelegate methods
     
