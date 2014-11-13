@@ -6,6 +6,7 @@ class ViewController: UIViewController, UIPageViewControllerDataSource
     var pageViewController : UIPageViewController?
     var pageTitles : Array<String> = ["God vs Man", "Cool Breeze"]
     var currentIndex : Int = 0
+    var currentPage : Int = 0
     
     override func viewDidLoad()
     {
@@ -22,15 +23,23 @@ class ViewController: UIViewController, UIPageViewControllerDataSource
         addChildViewController(pageViewController!)
         view.addSubview(pageViewController!.view)
         pageViewController!.didMoveToParentViewController(self)
+        
+
     }
     
-    override func didReceiveMemoryWarning()
+    func lastSearchChange()
     {
-        super.didReceiveMemoryWarning()
+        //println("aaa\(currentPage)")
+//        if(currentPage == 2){
+//            viewControllerAtIndex(1)
+//        }
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController?
     {
+ 
+        currentPage = 1
+        // println("current page\(currentPage)")
         var index = (viewController as SlashViewController).pageIndex
         
         if (index == 0) || (index == NSNotFound) {
@@ -39,11 +48,16 @@ class ViewController: UIViewController, UIPageViewControllerDataSource
         
         index--
         
+        
+        
         return viewControllerAtIndex(index)
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController?
     {
+       
+        currentPage = 2
+        //  println("current page\(currentPage)")
         var index = (viewController as SlashViewController).pageIndex
         
         if index == NSNotFound {
@@ -55,6 +69,8 @@ class ViewController: UIViewController, UIPageViewControllerDataSource
         if (index == self.pageTitles.count) {
             return nil
         }
+        
+        
         
         return viewControllerAtIndex(index)
     }
@@ -68,12 +84,12 @@ class ViewController: UIViewController, UIPageViewControllerDataSource
         
         var pageContentViewController:SlashViewController;
         if(index == 0){
-            
+            //println("000")
             let storyboard = UIStoryboard(name: "Main", bundle: nil);
             pageContentViewController = storyboard.instantiateViewControllerWithIdentifier("form-table") as FormViewController;
         }
         else if(index==1){
-            //println("la")
+            //println("111")
             let storyboard = UIStoryboard(name: "Main", bundle: nil);
             pageContentViewController = storyboard.instantiateViewControllerWithIdentifier("address-table") as TableViewController;
             //pageContentViewController = TableViewController()

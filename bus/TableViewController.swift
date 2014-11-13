@@ -19,9 +19,6 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        self.tableView?.registerClass(UITableViewCell.self, forCellReuseIdentifier: self.cellIdentifier)
 
         self.tableView?.delegate = self
         self.tableView?.dataSource = self
@@ -51,9 +48,35 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier) as UITableViewCell
         
+        var longPress = UILongPressGestureRecognizer(target: self, action: "respondToLPGesture:")
+        longPress.minimumPressDuration = 0.8;
+        cell.addGestureRecognizer(longPress)
+        
         cell.textLabel.text = self.tableData[indexPath.row]
         
         return cell
+    }
+    
+    func respondToLPGesture(sender: UIGestureRecognizer) {
+        
+        if(sender.state == UIGestureRecognizerState.Began) {
+            let point:CGPoint = sender.locationInView(self.tableView)
+//            var theIndexPath:NSIndexPath = self.tableView.indexPathForRowAtPoint()
+//
+            // THERE IS A BUG TO GET self.tableView.indexPathForRowAtPoint !!!!
+// I HATE SWIFT!
+            //
+//            println("aaa no\(theIndexPath)")
+            //s: UITableViewCell =sender;
+//            if(sender is UITableViewCell){
+//                 println("aaa")
+//            }else{
+//                println("aaa no")
+//            }
+           // let str = sender.view.tag
+           // println("aaa\(str)")
+            
+        }
     }
     
     // UITableViewDelegate methods

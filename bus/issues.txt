@@ -1,5 +1,12 @@
-issue remained - 12nd Nov
+Issue remained - 12nd Nov
 
-last search, done
-search page design
-click page 2 item jump to 1st page
+Done:
+Last search, done.
+Search page design, done.
+
+To-do:
+
+Filter xml results,
+
+Click page 2 item jump to 1st page: no solution right now.
+Long press to delete search log in table: seems to be a bug, non solution right now.

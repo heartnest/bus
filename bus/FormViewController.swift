@@ -15,12 +15,15 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
     @IBOutlet weak var numStop: UITextField!
     @IBOutlet weak var numBus: UITextField!
     @IBOutlet  var feedPan: UITextView!
+    @IBOutlet weak var searchButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.numStop.delegate = self;
         self.numBus.delegate = self;
-    
+        self.numStop.placeholder = "Stop number"
+        self.numBus.placeholder = "Bus number"
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
         tapRecognizer.numberOfTapsRequired = 1
@@ -29,8 +32,25 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         self.spinner.hidden = true
         
         loadLastSearch();
+        
+        makeTextFieldBorder(self.numStop)
+        makeTextFieldBorder(self.numBus)
+        
+        
+        var button = self.searchButton;
+//        button.frame = CGRectMake(20, view.frame.height - 10, view.frame.width - 40, 180)
+        button.layer.borderWidth = 1.5
+        button.layer.borderColor = (UIColor( red: 163/255, green: 162/255, blue:159/255, alpha: 1.0 )).CGColor;
+        //button.layer.borderColor =  UIColor.grayColor().CGColor
+        button.layer.cornerRadius = 19; // this value vary as per your desire
+        button.clipsToBounds = true;
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadLastSearch", name: NSUserDefaultsDidChangeNotification, object: nil)
+
     }
     
+
     
     func handleSingleTap(recognizer: UITapGestureRecognizer) {
         self.view.endEditing(true)
@@ -47,6 +67,8 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
     }
     
     func performQuery(){
+        
+        self.feedPan.attributedText = NSMutableAttributedString(string:"", attributes:nil)
         
         self.spinner.hidden = false
         self.spinner.startAnimating();
@@ -122,6 +144,17 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
             self.numStop.text = splitted[0];
             self.numBus.text = splitted[1];
         }
+    }
+    
+    func makeTextFieldBorder(textField:UITextField){
+        var border = CALayer()
+        var width = CGFloat(1.0)
+        border.borderColor = UIColor.grayColor().CGColor
+        border.frame = CGRect(x: 0, y: textField.frame.size.height - width, width:  textField.frame.size.width, height: textField.frame.size.height)
+        
+        border.borderWidth = width
+        textField.layer.addSublayer(border)
+        textField.layer.masksToBounds = true
     }
 
 }
