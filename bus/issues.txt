@@ -4,9 +4,21 @@ Done:
 Last search, done.
 Search page design, done.
 
+
+
+Done: 14th Nov:
+Long press to delete search log in table: seems to be a bug, non solution right now, done
+ud update for both side, done
+last search makes history search log change, done
+
+
+
 To-do:
+
+code stop name and stuff
 
 Filter xml results,
 
 Click page 2 item jump to 1st page: no solution right now.
-Long press to delete search log in table: seems to be a bug, non solution right now.
+
+minutes remain

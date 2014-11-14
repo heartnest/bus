@@ -27,13 +27,6 @@ class ViewController: UIViewController, UIPageViewControllerDataSource
 
     }
     
-    func lastSearchChange()
-    {
-        //println("aaa\(currentPage)")
-//        if(currentPage == 2){
-//            viewControllerAtIndex(1)
-//        }
-    }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController?
     {

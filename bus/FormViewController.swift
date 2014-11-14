@@ -16,33 +16,37 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
     @IBOutlet weak var numBus: UITextField!
     @IBOutlet  var feedPan: UITextView!
     @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var addrLabel: UILabel!
+    var addr:NSDictionary!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //components configurations
         self.numStop.delegate = self;
         self.numBus.delegate = self;
         self.numStop.placeholder = "Stop number"
         self.numBus.placeholder = "Bus number"
         
+        //gesture recognizers
         let tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
         tapRecognizer.numberOfTapsRequired = 1
         self.view.addGestureRecognizer(tapRecognizer)
         
+        
         self.spinner.hidden = true
         
         loadLastSearch();
+        loadAddresses();
         
         makeTextFieldBorder(self.numStop)
         makeTextFieldBorder(self.numBus)
         
         
         var button = self.searchButton;
-//        button.frame = CGRectMake(20, view.frame.height - 10, view.frame.width - 40, 180)
         button.layer.borderWidth = 1.5
         button.layer.borderColor = (UIColor( red: 163/255, green: 162/255, blue:159/255, alpha: 1.0 )).CGColor;
-        //button.layer.borderColor =  UIColor.grayColor().CGColor
-        button.layer.cornerRadius = 19; // this value vary as per your desire
+        button.layer.cornerRadius = 19;
         button.clipsToBounds = true;
         
         
@@ -50,19 +54,35 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
 
     }
     
+    func loadAddresses(){
+        
+        let path = NSBundle.mainBundle().pathForResource("data", ofType: "json")
+        let jsonData = NSData(contentsOfFile:path!)
+        self.addr = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
 
+    }
     
+
+    //default single tap outside
     func handleSingleTap(recognizer: UITapGestureRecognizer) {
         self.view.endEditing(true)
     }
 
 
+    @IBAction func inserting(sender: UITextField) {
+        let t = sender.text;
+        if(self.addr["k\(t)"] != nil){
+            let denomination: String = self.addr["k\(t)"]! as String
+            self.addrLabel.text = denomination;
+        }else{
+            self.addrLabel.text = "";
+        }
+    }
+
     @IBAction func query(sender: UIButton) {
         self.numStop.resignFirstResponder()
         self.numBus.resignFirstResponder()
         performQuery()
-        
-        
         
     }
     
@@ -95,15 +115,22 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
                 
                 notagArrival = notagArrival.stringByReplacingOccurrencesOfString(", ", withString: "\n", options: NSStringCompareOptions.LiteralSearch, range: nil)
                 
-                
                 let splittedcombi = notagArrival.componentsSeparatedByString("TperHellobus: ")
                 var resStr:String;
                 
                 if(splittedcombi.count == 2){
+                    //successfull
                     let splitted = splittedcombi[1].componentsSeparatedByString(", ")
                     resStr = splittedcombi[1];
                 }else{
-                    resStr = splittedcombi[0];
+                    //help
+                    let splittedcombi2 = notagArrival.componentsSeparatedByString("HellobusHelp: ")
+                    if(splittedcombi2.count == 2){
+                        resStr = splittedcombi2[1];
+                    }else{
+                        resStr = splittedcombi[0];
+                    }
+                    
                 }
                 
                 dispatch_async (dispatch_get_main_queue (), {
