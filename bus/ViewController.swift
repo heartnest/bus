@@ -8,10 +8,13 @@ class ViewController: UIViewController, UIPageViewControllerDataSource
     var currentIndex : Int = 0
     var currentPage : Int = 0
     
+    
+    
     override func viewDidLoad()
     {
-        super.viewDidLoad()
         
+        super.viewDidLoad()
+
         pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
         pageViewController!.dataSource = self
         

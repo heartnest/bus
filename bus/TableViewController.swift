@@ -10,7 +10,8 @@ import UIKit
 
 class TableViewController: SlashViewController, UITableViewDelegate, UITableViewDataSource{
     
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet var tableView: UITableView?
+    var amIActive = false
     
     
     let cellIdentifier = "cellIdentifier"
@@ -19,7 +20,7 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.tableView?.delegate = self
         self.tableView?.dataSource = self
         
@@ -31,7 +32,9 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
 
     func reloadlog(){
         loadLogFromUD()
-        self.tableView.reloadData()
+        if (!amIActive) {
+          self.tableView?.reloadData()
+        }
     }
     
     func loadLogFromUD(){
@@ -67,11 +70,11 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
         let sliced = rawItem.componentsSeparatedByString(",")
         var bustop = "";
         if(sliced.count == 3){
-            bustop = "NO.\(sliced[0]) \(sliced[2])"
+            bustop = "\(sliced[2])"
         }else{
-            bustop = "NO.\(sliced[0])"
+            bustop = ""
         }
-        cell.textLabel.text = "Bus \(sliced[1])"
+        cell.textLabel.text = "No.\(sliced[0]) Bus \(sliced[1])"
         cell.detailTextLabel!.text = bustop
         
         return cell
@@ -82,7 +85,7 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
         if(sender.state == UIGestureRecognizerState.Began) {
             let point:CGPoint = sender.locationInView(self.tableView)
             
-            var theIndexPath:NSIndexPath! = self.tableView.indexPathForRowAtPoint(point)
+            var theIndexPath:NSIndexPath! = self.tableView?.indexPathForRowAtPoint(point)
             let itemIdx = theIndexPath.row;
             let itemToRemoveAl = tableData[theIndexPath.row];
             
@@ -105,11 +108,9 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
                     log2 += "@"+item
 
                 }
-//                println()
-//                self.tableData.removeAtIndex(idx)
                 NSUserDefaults().setObject(log2, forKey: self.LOGKEY)
                 NSUserDefaults().synchronize()
-                self.tableView.reloadData()
+                self.tableView?.reloadData()
             }
 
             alert.addAction(cancelAction)
@@ -123,10 +124,12 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
     
     // UITableViewDelegate methods
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView?, didSelectRowAtIndexPath indexPath: NSIndexPath!){
 
         let str = self.tableData[indexPath.row]
+        amIActive = true;
         updateSearchLog(str)
+        amIActive = false;
         
     }
 
@@ -142,23 +145,23 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
     */
 
     
-    // Override to support conditional editing of the table view.
-//    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-//        // Return NO if you do not want the specified item to be editable.
-//        return true
-//    }
+   //  Override to support conditional editing of the table view.
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // Return NO if you do not want the specified item to be editable.
+        return true
+    }
     
 
     
     // Override to support editing the table view.
-//    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-//        if editingStyle == .Delete {
-//            // Delete the row from the data source
-//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-//        } else if editingStyle == .Insert {
-//            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-//        }    
-//    }
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            // Delete the row from the data source
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        } else if editingStyle == .Insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }    
+    }
     
 
     /*

@@ -18,6 +18,8 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var addrLabel: UILabel!
     var addr:NSDictionary!
+    
+    var amIActive = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +63,7 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
     }
     
     func loadLastSearch(){
-        if(NSUserDefaults().objectForKey(LASTSKEY) != nil){
+        if(NSUserDefaults().objectForKey(LASTSKEY) != nil && !amIActive){
             let lastsearch = NSUserDefaults().objectForKey(LASTSKEY) as String;
 
             let splitted = lastsearch.componentsSeparatedByString(",")
@@ -95,10 +97,11 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
 
     //query button
     @IBAction func query(sender: UIButton) {
+        amIActive = true;
         self.numStop.resignFirstResponder()
         self.numBus.resignFirstResponder()
         performQuery()
-        
+        amIActive = false;
     }
     
     //show result
