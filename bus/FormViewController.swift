@@ -28,29 +28,27 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         self.numStop.placeholder = "Stop number"
         self.numBus.placeholder = "Bus number"
         
+        makeTextFieldBorder(self.numStop)
+        makeTextFieldBorder(self.numBus)
+        
+        self.searchButton.layer.borderWidth = 1.5
+        self.searchButton.layer.borderColor = (UIColor( red: 163/255, green: 162/255, blue:159/255, alpha: 1.0 )).CGColor;
+        self.searchButton.layer.cornerRadius = 19;
+        self.searchButton.clipsToBounds = true;
+        
+        self.spinner.hidden = true
+        
         //gesture recognizers
         let tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
         tapRecognizer.numberOfTapsRequired = 1
         self.view.addGestureRecognizer(tapRecognizer)
         
-        
-        self.spinner.hidden = true
-        
-        loadLastSearch();
-        loadAddresses();
-        
-        makeTextFieldBorder(self.numStop)
-        makeTextFieldBorder(self.numBus)
-        
-        
-        var button = self.searchButton;
-        button.layer.borderWidth = 1.5
-        button.layer.borderColor = (UIColor( red: 163/255, green: 162/255, blue:159/255, alpha: 1.0 )).CGColor;
-        button.layer.cornerRadius = 19;
-        button.clipsToBounds = true;
-        
-        
+        //radio center
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadLastSearch", name: NSUserDefaultsDidChangeNotification, object: nil)
+        
+        
+        loadAddresses();
+        loadLastSearch();
 
     }
     
@@ -62,15 +60,25 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
 
     }
     
+    func loadLastSearch(){
+        if(NSUserDefaults().objectForKey(LASTSKEY) != nil){
+            let lastsearch = NSUserDefaults().objectForKey(LASTSKEY) as String;
 
-    //default single tap outside
-    func handleSingleTap(recognizer: UITapGestureRecognizer) {
-        self.view.endEditing(true)
+            let splitted = lastsearch.componentsSeparatedByString(",")
+            if(splitted.count == 2){
+                self.numStop.text = splitted[0];
+                self.numBus.text = splitted[1];
+                loadAddrByStopNum(splitted[0])
+            }else if(splitted.count == 3){
+                self.numStop.text = splitted[0];
+                self.numBus.text = splitted[1];
+                self.addrLabel.text = splitted[2];
+            }
+        }
     }
-
-
-    @IBAction func inserting(sender: UITextField) {
-        let t = sender.text;
+    
+    
+    func loadAddrByStopNum(t:String){
         if(self.addr["k\(t)"] != nil){
             let denomination: String = self.addr["k\(t)"]! as String
             self.addrLabel.text = denomination;
@@ -79,6 +87,13 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         }
     }
 
+    //editing
+    @IBAction func inserting(sender: UITextField) {
+        let t = sender.text;
+        loadAddrByStopNum(t)
+    }
+
+    //query button
     @IBAction func query(sender: UIButton) {
         self.numStop.resignFirstResponder()
         self.numBus.resignFirstResponder()
@@ -86,6 +101,7 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         
     }
     
+    //show result
     func performQuery(){
         
         self.feedPan.attributedText = NSMutableAttributedString(string:"", attributes:nil)
@@ -95,8 +111,11 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         
         let ns = self.numStop.text;
         let nb = self.numBus.text;
+        let al = self.addr["k\(ns)"]! as String
         
-        updateSearchLog("\(ns),\(nb)")
+        
+        //updateSearchLog("\(ns),\(nb)")
+        updateSearchLog("\(ns),\(nb),\(al)")
         
         var url: NSURL = NSURL(string: "https://solweb.tper.it/tperit/webservices/hellobus.asmx/QueryHellobus?fermata=\(ns)&linea=\(nb)&oraHHMM=")!
         var request1: NSURLRequest = NSURLRequest(URL: url)
@@ -156,24 +175,19 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         })
     }
     
-    func textFieldShouldReturn(textField: UITextField!) -> Bool // called when 'return' key pressed. return NO to ignore.
+    //default single tap outside
+    func handleSingleTap(recognizer: UITapGestureRecognizer) {
+        self.view.endEditing(true)
+    }
+
+    
+    // called when 'return' key pressed. return NO to ignore.
+    func textFieldShouldReturn(textField: UITextField!) -> Bool
     {
         textField.resignFirstResponder()
         return true;
     }
     
-
-    
-    func loadLastSearch(){
-        if(NSUserDefaults().objectForKey(LASTSKEY) != nil){
-            let lastsearch = NSUserDefaults().objectForKey(LASTSKEY) as String;
-            let splitted = lastsearch.componentsSeparatedByString(",")
-            if(splitted.count == 2){
-                self.numStop.text = splitted[0];
-                self.numBus.text = splitted[1];
-            }
-        }
-    }
     
     func makeTextFieldBorder(textField:UITextField){
         var border = CALayer()

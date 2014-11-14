@@ -57,13 +57,22 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier) as UITableViewCell
+        var cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier) as UITableViewCell
         
         var longPress = UILongPressGestureRecognizer(target: self, action: "respondToLPGesture:")
         longPress.minimumPressDuration = 0.8;
         cell.addGestureRecognizer(longPress)
         
-        cell.textLabel.text = self.tableData[indexPath.row]
+        let rawItem = self.tableData[indexPath.row]
+        let sliced = rawItem.componentsSeparatedByString(",")
+        var bustop = "";
+        if(sliced.count == 3){
+            bustop = "NO.\(sliced[0]) \(sliced[2])"
+        }else{
+            bustop = "NO.\(sliced[0])"
+        }
+        cell.textLabel.text = "Bus \(sliced[1])"
+        cell.detailTextLabel!.text = bustop
         
         return cell
     }
@@ -74,11 +83,12 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
             let point:CGPoint = sender.locationInView(self.tableView)
             
             var theIndexPath:NSIndexPath! = self.tableView.indexPathForRowAtPoint(point)
-            let itemToRemove = tableData[theIndexPath.row];
+            let itemIdx = theIndexPath.row;
+            let itemToRemoveAl = tableData[theIndexPath.row];
             
             let log = NSUserDefaults().objectForKey(LOGKEY) as String;
 
-            var alert = UIAlertController(title: "Attention", message: "Are you sure to cancel \(itemToRemove)", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert = UIAlertController(title: "Attention", message: "Are you sure to cancel \(itemToRemoveAl)", preferredStyle: UIAlertControllerStyle.Alert)
             
             var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
                 UIAlertAction in
@@ -88,18 +98,15 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
                 UIAlertAction in
                 
                 //update log
-                var i=0, idx = 0
+                self.tableData.removeAtIndex(itemIdx)
                 var log2 = "";
                 for item in self.tableData {
-                    if(item != itemToRemove)
-                    {
-                        log2 += "@"+item
-                    }else{
-                        idx = i;
-                    }
-                    i++
+
+                    log2 += "@"+item
+
                 }
-                self.tableData.removeAtIndex(idx)
+//                println()
+//                self.tableData.removeAtIndex(idx)
                 NSUserDefaults().setObject(log2, forKey: self.LOGKEY)
                 NSUserDefaults().synchronize()
                 self.tableView.reloadData()
@@ -121,17 +128,6 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
         let str = self.tableData[indexPath.row]
         updateSearchLog(str)
         
-//        let alert = UIAlertController(title: "Item selected", message: "You selected item \(indexPath.row)", preferredStyle: UIAlertControllerStyle.Alert)
-//        
-//        alert.addAction(UIAlertAction(title: "OK",
-//            style: UIAlertActionStyle.Default,
-//            handler: {
-//                (alert: UIAlertAction!) in println("An alert of type \(alert.style.hashValue) was tapped!")
-//                self.tableView?.deselectRowAtIndexPath(indexPath, animated: true)
-//        }))
-//        
-//        self.presentViewController(alert, animated: true, completion: nil)
-        
     }
 
 
@@ -147,22 +143,22 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
 
     
     // Override to support conditional editing of the table view.
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
+//    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+//        // Return NO if you do not want the specified item to be editable.
+//        return true
+//    }
     
 
     
     // Override to support editing the table view.
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
+//    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+//        if editingStyle == .Delete {
+//            // Delete the row from the data source
+//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+//        } else if editingStyle == .Insert {
+//            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+//        }    
+//    }
     
 
     /*

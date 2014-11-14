@@ -35,6 +35,7 @@ class SlashViewController: UIViewController {
 
     
     func updateSearchLog(newStr:String){
+        
         var old: String = ""
         if(NSUserDefaults().objectForKey(LOGKEY) != nil){
             old = NSUserDefaults().objectForKey(LOGKEY) as String;
