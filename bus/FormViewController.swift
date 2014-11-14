@@ -27,9 +27,7 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         //components configurations
         self.numStop.delegate = self;
         self.numBus.delegate = self;
-        self.numStop.placeholder = "Stop number"
-        self.numBus.placeholder = "Bus number"
-        
+
         makeTextFieldBorder(self.numStop)
         makeTextFieldBorder(self.numBus)
         

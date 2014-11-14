@@ -91,13 +91,13 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
             
             let log = NSUserDefaults().objectForKey(LOGKEY) as String;
 
-            var alert = UIAlertController(title: "Attention", message: "Are you sure to cancel \(itemToRemoveAl)", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert = UIAlertController(title: "Attention", message: "Are you sure to DELETE \(itemToRemoveAl)", preferredStyle: UIAlertControllerStyle.Alert)
             
             var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
                 UIAlertAction in
                 
             }
-            var okAction = UIAlertAction(title: "YES", style: UIAlertActionStyle.Default) {
+            var okAction = UIAlertAction(title: "DELETE", style: UIAlertActionStyle.Default) {
                 UIAlertAction in
                 
                 //update log
