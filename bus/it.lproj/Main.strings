@@ -1,0 +1,29 @@
+
+/* Class = "IBUILabel"; text = "Hi Bus!"; ObjectID = "VVh-cv-FSg"; */
+"VVh-cv-FSg.text" = "Hi Bus!";
+
+/* Class = "IBUILabel"; text = "ASSCUBO @ 2014 - HelloBus di Tper"; ObjectID = "aAC-eF-axu"; */
+"aAC-eF-axu.text" = "ASSCUBO @ 2014 - HelloBus di Tper";
+
+/* Class = "IBUIButton"; normalTitle = "search"; ObjectID = "bg2-pJ-RZK"; */
+"bg2-pJ-RZK.normalTitle" = "search";
+
+/* Class = "IBUILabel"; text = "⚐"; ObjectID = "gyV-Ne-ssp"; */
+"gyV-Ne-ssp.text" = "⚐";
+
+/* Class = "IBUITextField"; placeholder = "Bus number"; ObjectID = "kgB-Tn-V5f"; */
+"kgB-Tn-V5f.placeholder" = "Linea";
+
+/* Class = "IBUILabel"; text = "Detail"; ObjectID = "udt-sW-06D"; */
+"udt-sW-06D.text" = "Detail";
+
+/* Class = "IBUILabel"; text = "Title"; ObjectID = "vGW-o7-fhn"; */
+"vGW-o7-fhn.text" = "Title";
+
+
+/* Class = "IBUITextField"; placeholder = "Stop number"; ObjectID = "xsS-XO-OmG"; */
+"xsS-XO-OmG.placeholder" = "Numero di Fermata";
+
+
+/* table */
+"Mfl-nc-kyK.text" = "Cronologia";

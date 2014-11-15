@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  bus
+
+  Created by HeartNest on 14/11/14.
+  Copyright (c) 2014 asscubo. All rights reserved.
+*/
+
+//page table
+
+BUS_STOP="车站";
+BUS_NUM = "大巴";
+
+LP_TITLE = "注意";
+LP_MSG = "确定删除历史纪录";
+LP_CAN = "取消";
+LP_DEL = "删除";
+
+//FORM
+FORM_CNNERR = "实在抱歉，网络连接遇到了问题 ...";

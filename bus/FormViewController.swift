@@ -105,75 +105,83 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
     //show result
     func performQuery(){
         
-        self.feedPan.attributedText = NSMutableAttributedString(string:"", attributes:nil)
-        
-        self.spinner.hidden = false
-        self.spinner.startAnimating();
-        
         let ns = self.numStop.text;
-        let nb = self.numBus.text;
-        let al = self.addr["k\(ns)"]! as String
-        
-        
-        //updateSearchLog("\(ns),\(nb)")
-        updateSearchLog("\(ns),\(nb),\(al)")
-        
-        var url: NSURL = NSURL(string: "https://solweb.tper.it/tperit/webservices/hellobus.asmx/QueryHellobus?fermata=\(ns)&linea=\(nb)&oraHHMM=")!
-        var request1: NSURLRequest = NSURLRequest(URL: url)
-        let queue:NSOperationQueue = NSOperationQueue()
-        
-        NSURLConnection.sendAsynchronousRequest(request1, queue: queue, completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+        if(ns.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+ != ""){
             
-            var err: NSError
+            let nb = self.numBus.text;
+            let al = self.addr["k\(ns)"]! as String
             
-            if(data != nil){
-                let xmlArrival = NSString(data: data, encoding: NSUTF8StringEncoding)
-                let xmlNSArrival: String = xmlArrival!
+            
+            self.feedPan.attributedText = NSMutableAttributedString(string:"", attributes:nil)
+            
+            self.spinner.hidden = false
+            self.spinner.startAnimating();
+            
+            //updateSearchLog("\(ns),\(nb)")
+            updateSearchLog("\(ns),\(nb),\(al)")
+            
+            var url: NSURL = NSURL(string: "https://solweb.tper.it/tperit/webservices/hellobus.asmx/QueryHellobus?fermata=\(ns)&linea=\(nb)&oraHHMM=")!
+            var request1: NSURLRequest = NSURLRequest(URL: url)
+            let queue:NSOperationQueue = NSOperationQueue()
+            
+            NSURLConnection.sendAsynchronousRequest(request1, queue: queue, completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
                 
+                var err: NSError
                 
-                var notagArrival = xmlNSArrival.stringByReplacingOccurrencesOfString("</string>", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                
-                notagArrival = notagArrival.stringByReplacingOccurrencesOfString(", ", withString: "\n", options: NSStringCompareOptions.LiteralSearch, range: nil)
-                
-                let splittedcombi = notagArrival.componentsSeparatedByString("TperHellobus: ")
-                var resStr:String;
-                
-                if(splittedcombi.count == 2){
-                    //successfull
-                    let splitted = splittedcombi[1].componentsSeparatedByString(", ")
-                    resStr = splittedcombi[1];
-                }else{
-                    //help
-                    let splittedcombi2 = notagArrival.componentsSeparatedByString("HellobusHelp: ")
-                    if(splittedcombi2.count == 2){
-                        resStr = splittedcombi2[1];
+                if(data != nil){
+                    let xmlArrival = NSString(data: data, encoding: NSUTF8StringEncoding)
+                    let xmlNSArrival: String = xmlArrival!
+                    
+                    
+                    var notagArrival = xmlNSArrival.stringByReplacingOccurrencesOfString("</string>", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                    
+                    notagArrival = notagArrival.stringByReplacingOccurrencesOfString(", ", withString: "\n", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                    
+                    let splittedcombi = notagArrival.componentsSeparatedByString("TperHellobus: ")
+                    var resStr:String;
+                    
+                    if(splittedcombi.count == 2){
+                        //successfull
+                        let splitted = splittedcombi[1].componentsSeparatedByString(", ")
+                        resStr = splittedcombi[1];
                     }else{
-                        resStr = splittedcombi[0];
+                        //help
+                        let splittedcombi2 = notagArrival.componentsSeparatedByString("HellobusHelp: ")
+                        if(splittedcombi2.count == 2){
+                            resStr = splittedcombi2[1];
+                        }else{
+                            resStr = splittedcombi[0];
+                        }
+                        
                     }
                     
+                    dispatch_async (dispatch_get_main_queue (), {
+                        
+                        var attrs = [NSFontAttributeName : UIFont.systemFontOfSize(24.0)]
+                        var gString = NSMutableAttributedString(string:resStr, attributes:attrs)
+                        self.feedPan.attributedText = gString
+                        self.spinner.hidden = true
+                        self.spinner.stopAnimating();
+                        
+                    });
+                }else{
+                    dispatch_async (dispatch_get_main_queue (), {
+                        
+                        var attrs = [NSFontAttributeName : UIFont.systemFontOfSize(24.0)]
+                        
+                        let fmcntmsg = NSLocalizedString("FORM_CNNERR",comment:"A connection problem occured ..")
+                        
+                        var gString = NSMutableAttributedString(string:fmcntmsg, attributes:attrs)
+                        self.feedPan.attributedText = gString
+                        self.spinner.hidden = true
+                        self.spinner.stopAnimating();
+                        
+                    });
                 }
-                
-                dispatch_async (dispatch_get_main_queue (), {
-                    
-                    var attrs = [NSFontAttributeName : UIFont.systemFontOfSize(24.0)]
-                    var gString = NSMutableAttributedString(string:resStr, attributes:attrs)
-                    self.feedPan.attributedText = gString
-                    self.spinner.hidden = true
-                    self.spinner.stopAnimating();
-                    
-                });
-            }else{
-                dispatch_async (dispatch_get_main_queue (), {
-                    
-                    var attrs = [NSFontAttributeName : UIFont.systemFontOfSize(24.0)]
-                    var gString = NSMutableAttributedString(string:"A connection problem occured ..", attributes:attrs)
-                    self.feedPan.attributedText = gString
-                    self.spinner.hidden = true
-                    self.spinner.stopAnimating();
-                    
-                });
-            }
-        })
+            })
+        }
+        
     }
     
     //default single tap outside

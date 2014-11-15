@@ -18,6 +18,7 @@
 		2E17210B1A137729006F9DF5 /* issues.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2E17210A1A137729006F9DF5 /* issues.txt */; };
 		2E17210D1A13B2F4006F9DF5 /* bus.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E17210C1A13B2F4006F9DF5 /* bus.png */; };
 		2E17210F1A157B51006F9DF5 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 2E17210E1A157B51006F9DF5 /* data.json */; };
+		2ECE668A1A1672E600BBED44 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2ECE668C1A1672E600BBED44 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,11 @@
 		2E17210A1A137729006F9DF5 /* issues.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = issues.txt; sourceTree = "<group>"; };
 		2E17210C1A13B2F4006F9DF5 /* bus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bus.png; sourceTree = "<group>"; };
 		2E17210E1A157B51006F9DF5 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
+		2ECE66861A166D0500BBED44 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		2ECE66871A166D1900BBED44 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Main.strings; sourceTree = "<group>"; };
+		2ECE668D1A1672EB00BBED44 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2ECE668E1A1672EC00BBED44 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		2ECE668F1A1672ED00BBED44 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +110,7 @@
 		2E0356A91A1233C50095323C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2ECE668C1A1672E600BBED44 /* Localizable.strings */,
 				2E17210E1A157B51006F9DF5 /* data.json */,
 				2E0356AA1A1233C50095323C /* Info.plist */,
 			);
@@ -190,6 +197,8 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
+				it,
 			);
 			mainGroup = 2E03569D1A1233C50095323C;
 			productRefGroup = 2E0356A71A1233C50095323C /* Products */;
@@ -208,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E17210D1A13B2F4006F9DF5 /* bus.png in Resources */,
+				2ECE668A1A1672E600BBED44 /* Localizable.strings in Resources */,
 				2E0356B11A1233C50095323C /* Main.storyboard in Resources */,
 				2E0357041A12DF610095323C /* Images.xcassets in Resources */,
 				2E17210F1A157B51006F9DF5 /* data.json in Resources */,
@@ -260,8 +270,21 @@
 			isa = PBXVariantGroup;
 			children = (
 				2E0356B01A1233C50095323C /* Base */,
+				2ECE66861A166D0500BBED44 /* zh-Hans */,
+				2ECE66871A166D1900BBED44 /* it */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2ECE668C1A1672E600BBED44 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2ECE668D1A1672EB00BBED44 /* en */,
+				2ECE668E1A1672EC00BBED44 /* zh-Hans */,
+				2ECE668F1A1672ED00BBED44 /* it */,
+			);
+			name = Localizable.strings;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

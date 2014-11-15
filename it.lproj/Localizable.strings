@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  bus
+
+  Created by HeartNest on 14/11/14.
+  Copyright (c) 2014 asscubo. All rights reserved.
+*/
+
+//page table
+
+BUS_STOP="No.";
+BUS_NUM = "Linea";
+
+LP_TITLE = "Attenzione";
+LP_MSG = "Siete sicuri di cancellare";
+LP_CAN = "Non ora";
+LP_DEL = "Sì";
+
+//FORM
+FORM_CNNERR = "C'è un errore di connessione, si prega di riprovare più tardi...";

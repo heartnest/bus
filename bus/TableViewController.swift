@@ -39,12 +39,14 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
     
     func loadLogFromUD(){
         self.tableData = []
-        let log = NSUserDefaults().objectForKey(LOGKEY) as String;
-        var splitted = log.componentsSeparatedByString("@")
-        
-        for index in splitted {
-            if(index != ""){
-                self.tableData.append("\(index)")
+        if(NSUserDefaults().objectForKey(LOGKEY) != nil){
+            let log = NSUserDefaults().objectForKey(LOGKEY) as String;
+            var splitted = log.componentsSeparatedByString("@")
+            
+            for index in splitted {
+                if(index != ""){
+                    self.tableData.append("\(index)")
+                }
             }
         }
     }
@@ -74,7 +76,10 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
         }else{
             bustop = ""
         }
-        cell.textLabel.text = "No.\(sliced[0]) Bus \(sliced[1])"
+        let lbs = NSLocalizedString("BUS_STOP",comment:"bus stop")
+        let lbn = NSLocalizedString("BUS_NUM",comment:"bus number")
+        
+        cell.textLabel.text = "\(lbs) \(sliced[0]) \(lbn) \(sliced[1])"
         cell.detailTextLabel!.text = bustop
         
         return cell
@@ -90,14 +95,19 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
             let itemToRemoveAl = tableData[theIndexPath.row];
             
             let log = NSUserDefaults().objectForKey(LOGKEY) as String;
-
-            var alert = UIAlertController(title: "Attention", message: "Are you sure to DELETE \(itemToRemoveAl)", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+            let lptitle = NSLocalizedString("LP_TITLE",comment:"Attention")
+            let lpmsg = NSLocalizedString("LP_MSG",comment:"Are you sure to DELETE")
+            let lpcan = NSLocalizedString("LP_CAN",comment:"Cancel")
+            let lpdel = NSLocalizedString("LP_DEL",comment:"DELETE")
+
+            var alert = UIAlertController(title: "lptitle", message: "lpmsg \(itemToRemoveAl)", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            var cancelAction = UIAlertAction(title: "LP_CAN", style: UIAlertActionStyle.Cancel) {
                 UIAlertAction in
                 
             }
-            var okAction = UIAlertAction(title: "DELETE", style: UIAlertActionStyle.Default) {
+            var okAction = UIAlertAction(title: "LP_DEL", style: UIAlertActionStyle.Default) {
                 UIAlertAction in
                 
                 //update log
