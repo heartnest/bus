@@ -3,7 +3,9 @@
 "VVh-cv-FSg.text" = "Hi Bus!";
 
 /* Class = "IBUILabel"; text = "ASSCUBO @ 2014 - HelloBus di Tper"; ObjectID = "aAC-eF-axu"; */
-"aAC-eF-axu.text" = "博大学联 @ 2014 - HelloBus di Tper";
+"aAC-eF-axu.text" = "博大学联 @ 2014 - Tper HelloBus";
+
+"2MF-aD-TtP" = "即时数据由 Tper HelloBus 提供";
 
 /* Class = "IBUIButton"; normalTitle = "search"; ObjectID = "bg2-pJ-RZK"; */
 "bg2-pJ-RZK.normalTitle" = "查询";

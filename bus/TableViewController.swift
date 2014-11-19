@@ -79,7 +79,7 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
         let lbs = NSLocalizedString("BUS_STOP",comment:"bus stop")
         let lbn = NSLocalizedString("BUS_NUM",comment:"bus number")
         
-        cell.textLabel.text = "\(lbs) \(sliced[0]) \(lbn) \(sliced[1])"
+        cell.textLabel.text = "\(lbn) \(sliced[1]) \(lbs) \(sliced[0])"
         cell.detailTextLabel!.text = bustop
         
         return cell
@@ -101,13 +101,13 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
             let lpcan = NSLocalizedString("LP_CAN",comment:"Cancel")
             let lpdel = NSLocalizedString("LP_DEL",comment:"DELETE")
 
-            var alert = UIAlertController(title: "lptitle", message: "lpmsg \(itemToRemoveAl)", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert = UIAlertController(title: lptitle, message: "\(lpmsg) \(itemToRemoveAl)", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var cancelAction = UIAlertAction(title: "LP_CAN", style: UIAlertActionStyle.Cancel) {
+            var cancelAction = UIAlertAction(title: lpcan, style: UIAlertActionStyle.Cancel) {
                 UIAlertAction in
                 
             }
-            var okAction = UIAlertAction(title: "LP_DEL", style: UIAlertActionStyle.Default) {
+            var okAction = UIAlertAction(title: lpdel, style: UIAlertActionStyle.Default) {
                 UIAlertAction in
                 
                 //update log
