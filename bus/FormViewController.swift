@@ -74,6 +74,7 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
                 self.numBus.text = splitted[1];
                 self.addrLabel.text = splitted[2];
             }
+            self.feedPan.attributedText = NSMutableAttributedString(string:"", attributes:nil)
         }
     }
     
@@ -137,6 +138,7 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
                     var notagArrival = xmlNSArrival.stringByReplacingOccurrencesOfString("</string>", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
                     
                     notagArrival = notagArrival.stringByReplacingOccurrencesOfString(", ", withString: "\n", options: NSStringCompareOptions.LiteralSearch, range: nil)
+                    notagArrival = notagArrival.stringByReplacingOccurrencesOfString("/ ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
                     
                     let splittedcombi = notagArrival.componentsSeparatedByString("TperHellobus: ")
                     var resStr:String;
