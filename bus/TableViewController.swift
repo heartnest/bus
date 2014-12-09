@@ -15,17 +15,12 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
     
     
     let cellIdentifier = "cellIdentifier"
-    var tableData = [String]()
-    
-   
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tableView?.delegate = self
         self.tableView?.dataSource = self
-        
-        // Setup table data
-        loadLogFromUD()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadlog", name: NSUserDefaultsDidChangeNotification, object: nil)
     }
@@ -35,28 +30,6 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
         if (!amIActive) {
           self.tableView?.reloadData()
         }
-    }
-    
-    func loadLogFromUD(){
-        self.tableData = []
-        var loaderArr:Array = [String]()
-        if(NSUserDefaults().objectForKey(LOGKEY) != nil){
-            let log = NSUserDefaults().objectForKey(LOGKEY) as String;
-            var splitted = log.componentsSeparatedByString("@")
-            
-            for index in splitted {
-                if(index != ""){
-                    loaderArr.append("\(index)")
-                    //self.tableData.append("\(index)")
-                }
-            }
-        }
-        self.tableData = sorted(loaderArr, { (s1: String, s2: String) -> Bool in
-            
-            let sliced1 = s1.componentsSeparatedByString(",")
-            let sliced2 = s2.componentsSeparatedByString(",")
-            return sliced1[1] < sliced2[1]
-        })
     }
 
     // MARK: - Table view data source
@@ -87,7 +60,7 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
         let lbs = NSLocalizedString("BUS_STOP",comment:"bus stop")
         let lbn = NSLocalizedString("BUS_NUM",comment:"bus number")
         
-        cell.textLabel.text = "\(lbn) \(sliced[1]) \(lbs) \(sliced[0])"
+        cell.textLabel!.text = "\(lbn) \(sliced[1]) \(lbs) \(sliced[0])"
         cell.detailTextLabel!.text = bustop
         
         return cell

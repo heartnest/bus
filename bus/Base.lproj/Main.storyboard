@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -163,7 +163,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="J3g-UH-osA">
-                                <rect key="frame" x="12" y="59" width="296" height="440"/>
+                                <rect key="frame" x="12" y="59" width="296" height="459"/>
                                 <color key="sectionIndexBackgroundColor" red="0.89803921568627454" green="0.90196078431372551" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cellIdentifier" textLabel="vGW-o7-fhn" detailTextLabel="udt-sW-06D" style="IBUITableViewCellStyleValue1" id="cW1-OQ-gK5">
@@ -197,7 +197,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" ASSCUBO © 2014" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aAC-eF-axu">
-                                <rect key="frame" x="99" y="515" width="125" height="17"/>
+                                <rect key="frame" x="99" y="536" width="125" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -206,10 +206,10 @@
                         <color key="backgroundColor" red="0.90196078431372551" green="0.90588235294117647" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="J3g-UH-osA" firstAttribute="leading" secondItem="pNR-aq-crK" secondAttribute="leading" constant="12" id="7Zj-Ks-uLb"/>
-                            <constraint firstAttribute="bottom" secondItem="J3g-UH-osA" secondAttribute="bottom" constant="69" id="JZI-1g-iT0"/>
+                            <constraint firstAttribute="bottom" secondItem="J3g-UH-osA" secondAttribute="bottom" constant="50" id="JZI-1g-iT0"/>
                             <constraint firstAttribute="trailing" secondItem="J3g-UH-osA" secondAttribute="trailing" constant="12" id="X2O-OS-SGp"/>
                             <constraint firstItem="J3g-UH-osA" firstAttribute="top" secondItem="pNR-aq-crK" secondAttribute="top" constant="59" id="c4X-xL-q6z"/>
-                            <constraint firstAttribute="bottom" secondItem="aAC-eF-axu" secondAttribute="bottom" constant="36" id="csw-bi-epN"/>
+                            <constraint firstAttribute="bottom" secondItem="aAC-eF-axu" secondAttribute="bottom" constant="15" id="csw-bi-epN"/>
                             <constraint firstAttribute="centerX" secondItem="Mfl-nc-kyK" secondAttribute="centerX" constant="-1.5" id="fr9-QQ-T8D"/>
                             <constraint firstAttribute="centerX" secondItem="aAC-eF-axu" secondAttribute="centerX" constant="-1" id="hoA-cK-RpS"/>
                             <constraint firstItem="Mfl-nc-kyK" firstAttribute="top" secondItem="pNR-aq-crK" secondAttribute="top" constant="26" id="vT3-cf-giW"/>

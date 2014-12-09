@@ -49,7 +49,7 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         
         loadAddresses();
         loadLastSearch();
-
+        
     }
     
     func loadAddresses(){
@@ -87,11 +87,27 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
             self.addrLabel.text = "";
         }
     }
+    
+    func checkBusByStopInLog(t:String) -> String
+    {
+        for raw:String in self.tableData{
+            let sliced = raw.componentsSeparatedByString(",")
+            if(sliced[0] == t){
+                return sliced[1];
+            }
+        }
+        return "";
+    }
 
     //editing
     @IBAction func inserting(sender: UITextField) {
         let t = sender.text;
         loadAddrByStopNum(t)
+        
+        let buscode = checkBusByStopInLog(t)
+        if(buscode != ""){
+            self.numBus.text = buscode;
+        }
     }
 
     //query button
@@ -109,19 +125,20 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         let ns = self.numStop.text;
         if(ns.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
  != ""){
-            
-            let nb = self.numBus.text;
-            let al = self.addr["k\(ns)"]! as String
-            
-            
+    
             self.feedPan.attributedText = NSMutableAttributedString(string:"", attributes:nil)
             
             self.spinner.hidden = false
             self.spinner.startAnimating();
-            
-            //updateSearchLog("\(ns),\(nb)")
-            updateSearchLog("\(ns),\(nb),\(al)")
-            
+    
+            let nb = self.numBus.text;
+            if(self.addr["k\(ns)"] != nil){
+                let al = self.addr["k\(ns)"]! as String
+                updateSearchLog("\(ns),\(nb),\(al)")
+            }else{
+                updateSearchLog("\(ns),\(nb)")
+            }
+    
             var url: NSURL = NSURL(string: "https://solweb.tper.it/tperit/webservices/hellobus.asmx/QueryHellobus?fermata=\(ns)&linea=\(nb)&oraHHMM=")!
             var request1: NSURLRequest = NSURLRequest(URL: url)
             let queue:NSOperationQueue = NSOperationQueue()

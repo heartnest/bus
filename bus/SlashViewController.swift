@@ -17,10 +17,15 @@ class SlashViewController: UIViewController {
     var pageIndex : Int = 0
     var titleText : String = ""
     var imageFile : String = ""
+    
+    var tableData = [String]()
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        // Setup table data
+        loadLogFromUD()
         
 //        view.backgroundColor = UIColor(patternImage: UIImage(named: imageFile)!)
         
@@ -50,4 +55,25 @@ class SlashViewController: UIViewController {
         NSUserDefaults().synchronize()
     }
 
+    func loadLogFromUD(){
+        self.tableData = []
+        var loaderArr:Array = [String]()
+        if(NSUserDefaults().objectForKey(LOGKEY) != nil){
+            let log = NSUserDefaults().objectForKey(LOGKEY) as String;
+            var splitted = log.componentsSeparatedByString("@")
+            
+            for index in splitted {
+                if(index != ""){
+                    loaderArr.append("\(index)")
+                    //self.tableData.append("\(index)")
+                }
+            }
+        }
+        self.tableData = sorted(loaderArr, { (s1: String, s2: String) -> Bool in
+            
+            let sliced1 = s1.componentsSeparatedByString(",")
+            let sliced2 = s2.componentsSeparatedByString(",")
+            return sliced1[1] < sliced2[1]
+        })
+    }
 }
