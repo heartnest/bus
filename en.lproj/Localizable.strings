@@ -18,3 +18,4 @@ LP_DEL = "DELETE";
 
 //FORM
 FORM_CNNERR = "A connection problem occured ..";
+//PRODUCT_NAME = "Bus Time - Bologna";

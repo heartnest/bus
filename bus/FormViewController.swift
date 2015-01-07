@@ -154,7 +154,7 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
                     
                     var notagArrival = xmlNSArrival.stringByReplacingOccurrencesOfString("</string>", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
                     
-                    notagArrival = notagArrival.stringByReplacingOccurrencesOfString(", ", withString: "\n", options: NSStringCompareOptions.LiteralSearch, range: nil)
+//                    notagArrival = notagArrival.stringByReplacingOccurrencesOfString(", ", withString: "\n", options: NSStringCompareOptions.LiteralSearch, range: nil)
                     notagArrival = notagArrival.stringByReplacingOccurrencesOfString("/ ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
                     
                     let splittedcombi = notagArrival.componentsSeparatedByString("TperHellobus: ")
@@ -162,8 +162,17 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
                     
                     if(splittedcombi.count == 2){
                         //successfull
-                        let splitted = splittedcombi[1].componentsSeparatedByString(", ")
-                        resStr = splittedcombi[1];
+                        let splitted = splittedcombi[1].componentsSeparatedByString(",")
+                        //parentesi problem
+                        let part1 = splitted[0].componentsSeparatedByString("(")
+       
+                        if(splitted.count == 2){
+                            let part2 = splitted[1].componentsSeparatedByString("(")
+                            resStr = part1[0].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())+"\n"+part2[0].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet());
+                        }else{
+                            resStr = part1[0];
+                        }
+                        
                     }else{
                         //help
                         let splittedcombi2 = notagArrival.componentsSeparatedByString("HellobusHelp: ")

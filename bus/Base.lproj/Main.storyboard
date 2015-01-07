@@ -70,9 +70,9 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="eAc-8Z-jo6">
                                 <rect key="frame" x="149" y="366" width="20" height="20"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hi Bus!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VVh-cv-FSg">
-                                <rect key="frame" x="95" y="30" width="130" height="44"/>
-                                <fontDescription key="fontDescription" name="Verdana" family="Verdana" pointSize="36"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bus Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VVh-cv-FSg">
+                                <rect key="frame" x="86" y="36" width="149" height="39"/>
+                                <fontDescription key="fontDescription" name="Verdana" family="Verdana" pointSize="32"/>
                                 <color key="textColor" red="0.054901960784313725" green="0.17647058823529413" blue="0.34509803921568627" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -126,7 +126,7 @@
                             <constraint firstAttribute="centerX" secondItem="2MF-aD-TtP" secondAttribute="centerX" constant="2" id="duy-AA-Xfd"/>
                             <constraint firstItem="xsS-XO-OmG" firstAttribute="top" secondItem="aqx-M1-i0A" secondAttribute="top" constant="132" id="g9l-Sy-YWV"/>
                             <constraint firstAttribute="bottom" secondItem="2MF-aD-TtP" secondAttribute="bottom" constant="31" id="imH-ZP-w00"/>
-                            <constraint firstItem="VVh-cv-FSg" firstAttribute="top" secondItem="aqx-M1-i0A" secondAttribute="top" constant="30" id="kd7-hS-X7C"/>
+                            <constraint firstItem="VVh-cv-FSg" firstAttribute="top" secondItem="aqx-M1-i0A" secondAttribute="top" constant="36" id="kd7-hS-X7C"/>
                             <constraint firstItem="eAc-8Z-jo6" firstAttribute="top" secondItem="aqx-M1-i0A" secondAttribute="top" constant="366" id="mPe-Qq-qeA"/>
                             <constraint firstItem="t2x-Ye-cCd" firstAttribute="leading" secondItem="aqx-M1-i0A" secondAttribute="leading" constant="72" id="pSl-IL-00m"/>
                             <constraint firstItem="kgB-Tn-V5f" firstAttribute="top" secondItem="aqx-M1-i0A" secondAttribute="top" constant="182" id="qZY-2T-YZD"/>
