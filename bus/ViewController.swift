@@ -20,7 +20,7 @@ class ViewController: UIViewController, UIPageViewControllerDataSource
         
         let startingViewController: SlashViewController = viewControllerAtIndex(0)!
         let viewControllers: NSArray = [startingViewController]
-        pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: false, completion: nil)
+        pageViewController!.setViewControllers(viewControllers as? [UIViewController], direction: .Forward, animated: false, completion: nil)
         pageViewController!.view.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
         
         addChildViewController(pageViewController!)
@@ -36,7 +36,7 @@ class ViewController: UIViewController, UIPageViewControllerDataSource
  
         currentPage = 1
         // println("current page\(currentPage)")
-        var index = (viewController as SlashViewController).pageIndex
+        var index = (viewController as! SlashViewController).pageIndex
         
         if (index == 0) || (index == NSNotFound) {
             return nil
@@ -54,7 +54,7 @@ class ViewController: UIViewController, UIPageViewControllerDataSource
        
         currentPage = 2
         //  println("current page\(currentPage)")
-        var index = (viewController as SlashViewController).pageIndex
+        var index = (viewController as! SlashViewController).pageIndex
         
         if index == NSNotFound {
             return nil
@@ -82,12 +82,12 @@ class ViewController: UIViewController, UIPageViewControllerDataSource
         if(index == 0){
             //println("000")
             let storyboard = UIStoryboard(name: "Main", bundle: nil);
-            pageContentViewController = storyboard.instantiateViewControllerWithIdentifier("form-table") as FormViewController;
+            pageContentViewController = storyboard.instantiateViewControllerWithIdentifier("form-table") as! FormViewController;
         }
         else if(index==1){
             //println("111")
             let storyboard = UIStoryboard(name: "Main", bundle: nil);
-            pageContentViewController = storyboard.instantiateViewControllerWithIdentifier("address-table") as TableViewController;
+            pageContentViewController = storyboard.instantiateViewControllerWithIdentifier("address-table") as! TableViewController;
             //pageContentViewController = TableViewController()
         }else{
             pageContentViewController = SlashViewController()

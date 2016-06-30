@@ -43,9 +43,9 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier) as UITableViewCell
+        let cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier)! as UITableViewCell
         
-        var longPress = UILongPressGestureRecognizer(target: self, action: "respondToLPGesture:")
+        let longPress = UILongPressGestureRecognizer(target: self, action: "respondToLPGesture:")
         longPress.minimumPressDuration = 0.8;
         cell.addGestureRecognizer(longPress)
         
@@ -71,24 +71,24 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
         if(sender.state == UIGestureRecognizerState.Began) {
             let point:CGPoint = sender.locationInView(self.tableView)
             
-            var theIndexPath:NSIndexPath! = self.tableView?.indexPathForRowAtPoint(point)
+            let theIndexPath:NSIndexPath! = self.tableView?.indexPathForRowAtPoint(point)
             let itemIdx = theIndexPath.row;
             let itemToRemoveAl = tableData[theIndexPath.row];
             
-            let log = NSUserDefaults().objectForKey(LOGKEY) as String;
+//            let log = NSUserDefaults().objectForKey(LOGKEY) as! String;
             
             let lptitle = NSLocalizedString("LP_TITLE",comment:"Attention")
             let lpmsg = NSLocalizedString("LP_MSG",comment:"Are you sure to DELETE")
             let lpcan = NSLocalizedString("LP_CAN",comment:"Cancel")
             let lpdel = NSLocalizedString("LP_DEL",comment:"DELETE")
 
-            var alert = UIAlertController(title: lptitle, message: "\(lpmsg) \(itemToRemoveAl)", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: lptitle, message: "\(lpmsg) \(itemToRemoveAl)", preferredStyle: UIAlertControllerStyle.Alert)
             
-            var cancelAction = UIAlertAction(title: lpcan, style: UIAlertActionStyle.Cancel) {
+            let cancelAction = UIAlertAction(title: lpcan, style: UIAlertActionStyle.Cancel) {
                 UIAlertAction in
                 
             }
-            var okAction = UIAlertAction(title: lpdel, style: UIAlertActionStyle.Default) {
+            let okAction = UIAlertAction(title: lpdel, style: UIAlertActionStyle.Default) {
                 UIAlertAction in
                 
                 //update log
@@ -115,7 +115,7 @@ class TableViewController: SlashViewController, UITableViewDelegate, UITableView
     
     // UITableViewDelegate methods
     
-    func tableView(tableView: UITableView?, didSelectRowAtIndexPath indexPath: NSIndexPath!){
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
 
         let str = self.tableData[indexPath.row]
         amIActive = true;

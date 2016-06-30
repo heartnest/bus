@@ -43,7 +43,7 @@ class SlashViewController: UIViewController {
         
         var old: String = ""
         if(NSUserDefaults().objectForKey(LOGKEY) != nil){
-            old = NSUserDefaults().objectForKey(LOGKEY) as String;
+            old = NSUserDefaults().objectForKey(LOGKEY) as! String;
         }
         let splittedcheck = old.componentsSeparatedByString(newStr)
         let size :Int = splittedcheck.count
@@ -59,8 +59,8 @@ class SlashViewController: UIViewController {
         self.tableData = []
         var loaderArr:Array = [String]()
         if(NSUserDefaults().objectForKey(LOGKEY) != nil){
-            let log = NSUserDefaults().objectForKey(LOGKEY) as String;
-            var splitted = log.componentsSeparatedByString("@")
+            let log = NSUserDefaults().objectForKey(LOGKEY) as! String;
+            let splitted = log.componentsSeparatedByString("@")
             
             for index in splitted {
                 if(index != ""){
@@ -69,7 +69,7 @@ class SlashViewController: UIViewController {
                 }
             }
         }
-        self.tableData = sorted(loaderArr, { (s1: String, s2: String) -> Bool in
+        self.tableData = loaderArr.sort({ (s1: String, s2: String) -> Bool in
             
             let sliced1 = s1.componentsSeparatedByString(",")
             let sliced2 = s2.componentsSeparatedByString(",")

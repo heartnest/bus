@@ -56,13 +56,15 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         
         let path = NSBundle.mainBundle().pathForResource("data", ofType: "json")
         let jsonData = NSData(contentsOfFile:path!)
-        self.addr = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
+        
+        let datastring = String(data: jsonData!, encoding: NSUTF8StringEncoding)
+        self.addr = convertStringToDictionary(datastring!)
 
     }
     
     func loadLastSearch(){
         if(NSUserDefaults().objectForKey(LASTSKEY) != nil && !amIActive){
-            let lastsearch = NSUserDefaults().objectForKey(LASTSKEY) as String;
+            let lastsearch = NSUserDefaults().objectForKey(LASTSKEY) as! String;
 
             let splitted = lastsearch.componentsSeparatedByString(",")
             if(splitted.count == 2){
@@ -81,7 +83,7 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
     
     func loadAddrByStopNum(t:String){
         if(self.addr["k\(t)"] != nil){
-            let denomination: String = self.addr["k\(t)"]! as String
+            let denomination: String = self.addr["k\(t)"]! as! String
             self.addrLabel.text = denomination;
         }else{
             self.addrLabel.text = "";
@@ -102,9 +104,9 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
     //editing
     @IBAction func inserting(sender: UITextField) {
         let t = sender.text;
-        loadAddrByStopNum(t)
+        loadAddrByStopNum(t!)
         
-        let buscode = checkBusByStopInLog(t)
+        let buscode = checkBusByStopInLog(t!)
         if(buscode != ""){
             self.numBus.text = buscode;
         }
@@ -122,7 +124,7 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
     //show result
     func performQuery(){
         
-        let ns = self.numStop.text;
+        let ns = self.numStop.text! as String;
         if(ns.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
  != ""){
     
@@ -131,25 +133,27 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
             self.spinner.hidden = false
             self.spinner.startAnimating();
     
-            let nb = self.numBus.text;
+            let nb = self.numBus.text! as  String;
             if(self.addr["k\(ns)"] != nil){
-                let al = self.addr["k\(ns)"]! as String
+                let al = self.addr["k\(ns)"]! as! String
                 updateSearchLog("\(ns),\(nb),\(al)")
             }else{
                 updateSearchLog("\(ns),\(nb)")
             }
     
-            var url: NSURL = NSURL(string: "https://solweb.tper.it/tperit/webservices/hellobus.asmx/QueryHellobus?fermata=\(ns)&linea=\(nb)&oraHHMM=")!
-            var request1: NSURLRequest = NSURLRequest(URL: url)
+//            let url: NSURL = NSURL(string: "https://solweb.tper.it/tperit/webservices/hellobus.asmx/QueryHellobus?fermata=\(ns)&linea=\(nb)&oraHHMM=")!
+    
+    let url: NSURL = NSURL(string: "https://hellobuswsweb.tper.it/web-services/hello-bus.asmx/QueryHellobus?fermata=\(ns)&linea=\(nb)&oraHHMM=null")!
+            let request1: NSURLRequest = NSURLRequest(URL: url)
             let queue:NSOperationQueue = NSOperationQueue()
             
-            NSURLConnection.sendAsynchronousRequest(request1, queue: queue, completionHandler:{ (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+            NSURLConnection.sendAsynchronousRequest(request1, queue: queue, completionHandler:{ (response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
                 
-                var err: NSError
+//                let err: NSError
                 
                 if(data != nil){
-                    let xmlArrival = NSString(data: data, encoding: NSUTF8StringEncoding)
-                    let xmlNSArrival: String = xmlArrival!
+                    let xmlArrival = NSString(data: data!, encoding: NSUTF8StringEncoding)
+                    let xmlNSArrival: String = xmlArrival! as String
                     
                     
                     var notagArrival = xmlNSArrival.stringByReplacingOccurrencesOfString("</string>", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
@@ -186,8 +190,8 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
                     
                     dispatch_async (dispatch_get_main_queue (), {
                         
-                        var attrs = [NSFontAttributeName : UIFont.systemFontOfSize(24.0)]
-                        var gString = NSMutableAttributedString(string:resStr, attributes:attrs)
+                        let attrs = [NSFontAttributeName : UIFont.systemFontOfSize(24.0)]
+                        let gString = NSMutableAttributedString(string:resStr, attributes:attrs)
                         self.feedPan.attributedText = gString
                         self.spinner.hidden = true
                         self.spinner.stopAnimating();
@@ -196,11 +200,11 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
                 }else{
                     dispatch_async (dispatch_get_main_queue (), {
                         
-                        var attrs = [NSFontAttributeName : UIFont.systemFontOfSize(24.0)]
+                        let attrs = [NSFontAttributeName : UIFont.systemFontOfSize(24.0)]
                         
                         let fmcntmsg = NSLocalizedString("FORM_CNNERR",comment:"A connection problem occured ..")
                         
-                        var gString = NSMutableAttributedString(string:fmcntmsg, attributes:attrs)
+                        let gString = NSMutableAttributedString(string:fmcntmsg, attributes:attrs)
                         self.feedPan.attributedText = gString
                         self.spinner.hidden = true
                         self.spinner.stopAnimating();
@@ -219,7 +223,7 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
 
     
     // called when 'return' key pressed. return NO to ignore.
-    func textFieldShouldReturn(textField: UITextField!) -> Bool
+    func textFieldShouldReturn(textField: UITextField) -> Bool
     {
         textField.resignFirstResponder()
         return true;
@@ -227,8 +231,8 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
     
     
     func makeTextFieldBorder(textField:UITextField){
-        var border = CALayer()
-        var width = CGFloat(1.0)
+        let border = CALayer()
+        let width = CGFloat(1.0)
         //border.borderColor = UIColor.grayColor().CGColor
         border.borderColor = (UIColor( red: 170/255, green: 170/255, blue:172/255, alpha: 1.0 )).CGColor;
         border.frame = CGRect(x: 0, y: textField.frame.size.height - width, width:  textField.frame.size.width, height: textField.frame.size.height)
@@ -238,4 +242,14 @@ class FormViewController: SlashViewController, UITextFieldDelegate {
         textField.layer.masksToBounds = true
     }
 
+    func convertStringToDictionary(text: String) -> [String:AnyObject]? {
+        if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
+            do {
+                return try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String:AnyObject]
+            } catch let error as NSError {
+                print(error)
+            }
+        }
+        return nil
+    }
 }
